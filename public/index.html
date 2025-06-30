@@ -1,9 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Website</title>
-
-  <!-- Google AdSense Auto Ads -->
+  <title>Agonizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- AdSense Auto Ads -->
   <script async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3865109626053070"
     crossorigin="anonymous"></script>
+
+  <!-- Edgy CSS -->
+  <style>
+    :root {
+      --bg: #111;
+      --fg: #eee;
+      --accent: #e63946;
+      --font-head: 'Impact', sans-serif;
+      --font-body: 'Segoe UI', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+      background: #000;
+    }
+    header h1 {
+      font-family: var(--font-head);
+      font-size: 3rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    nav a {
+      color: var(--fg);
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: var(--accent);
+      transition: width .3s;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 1rem auto;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .card {
+      background: #222;
+      border: 1px solid #333;
+      padding: 1.5rem;
+      border-radius: 8px;
+      transition: transform .2s, border-color .2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+    .card h2 {
+      font-family: var(--font-head);
+      margin-bottom: .5rem;
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: .875rem;
+      border-top: 1px solid #333;
+    }
+  </style>
 </head>
+<body>
+
+  <header>
+    <h1>Agonizer</h1>
+    <nav>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <p>Agonizer: The ultimate edgy experience. Automate, elevate, dominate.</p>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <h2>Auto‑Advance</h2>
+      <p>Move to the next action without lifting a finger.</p>
+    </div>
+    <div class="card">
+      <h2>AI Answers</h2>
+      <p>Smart, stealthy, and nearly undetectable.</p>
+    </div>
+    <div class="card">
+      <h2>Anti‑Logout</h2>
+      <p>Stay activated, session locked, forever in control.</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Agonizer. All rights reserved.
+  </footer>
+
+</body>
+</html>
