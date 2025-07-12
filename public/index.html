@@ -284,6 +284,11 @@
             border-top: 1px solid #ff0044;
         }
 
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .footer p {
             color: #cccccc;
             margin-bottom: 10px;
@@ -306,6 +311,39 @@
         .social-links a:hover {
             color: #ffffff;
             text-shadow: 0 0 5px #ff0044;
+        }
+
+        .version-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 0, 68, 0.2);
+        }
+
+        .version-info h3 {
+            color: #ff0044;
+            margin-bottom: 10px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            padding: 10px 20px;
+            border: 1px solid #ff0044;
+            background: rgba(255, 0, 68, 0.1);
+            color: #ff0044;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: #ff0044;
+            color: #ffffff;
         }
 
         .floating-particles {
@@ -432,13 +470,20 @@
     </section>
 
     <footer class="footer">
-        <p>&copy; 2024 Agonizer. All rights reserved.</p>
-        <p>Advanced Script Execution Technology</p>
-        <div class="social-links">
-            <a href="#">Discord</a>
-            <a href="#">Twitter</a>
-            <a href="#">GitHub</a>
-            <a href="#">Documentation</a>
+        <div class="footer-content">
+            <p>Send any communications or inquiries to support@agonizer.net.</p>
+            <p>&copy; 2025 Agonizer. All rights reserved.</p>
+            <p>This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.</p>
+            
+            <div class="version-info">
+                <h3>Agonizer 0.1</h3>
+                <p>An evolution of execution. Coming soon to a computer near you.</p>
+                
+                <div class="social-buttons">
+                    <a href="#" class="social-btn">🐦 Follow us on Twitter</a>
+                    <a href="#" class="social-btn">🔷 Join the beta</a>
+                </div>
+            </div>
         </div>
     </footer>
 
