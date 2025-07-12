@@ -50,11 +50,34 @@
             gap: 30px;
         }
 
+        .logo-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo-link:hover {
+            transform: scale(1.05);
+        }
+
         .logo {
+            height: 40px;
+            width: auto;
+            max-width: 200px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 68, 0.5));
+        }
+
+        .logo:hover {
+            filter: drop-shadow(0 0 15px rgba(255, 0, 68, 0.8));
+        }
+
+        .logo-fallback {
             font-size: 28px;
             font-weight: bold;
             color: #ff0044;
             text-shadow: 0 0 10px #ff0044;
+            display: none;
         }
 
         .nav-left a, .nav-right a {
@@ -399,6 +422,10 @@
                 flex-direction: column;
                 align-items: center;
             }
+
+            .logo {
+                height: 35px;
+            }
         }
     </style>
 </head>
@@ -408,7 +435,10 @@
     <header class="header">
         <div class="nav-container">
             <div class="nav-left">
-                <div class="logo">Agonizer</div>
+                <a href="#home" class="logo-link">
+                    <img src="logo.png" alt="Agonizer Logo" class="logo" id="logoImg">
+                    <div class="logo-fallback" id="logoFallback">Agonizer</div>
+                </a>
                 <a href="#home">Home</a>
                 <a href="#faq">Frequently Asked Questions</a>
             </div>
@@ -487,6 +517,15 @@
     </footer>
 
     <script>
+        // Logo error handling - fallback to text if image fails to load
+        const logoImg = document.getElementById('logoImg');
+        const logoFallback = document.getElementById('logoFallback');
+
+        logoImg.addEventListener('error', () => {
+            logoImg.style.display = 'none';
+            logoFallback.style.display = 'block';
+        });
+
         // Floating particles effect
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
@@ -543,9 +582,9 @@
         });
 
         // Add glitch effect to logo on hover
-        const logo = document.querySelector('.logo');
-        logo.addEventListener('mouseenter', () => {
-            logo.style.animation = 'glow 0.5s ease-in-out';
+        const logoLink = document.querySelector('.logo-link');
+        logoLink.addEventListener('mouseenter', () => {
+            logoLink.style.animation = 'glow 0.5s ease-in-out';
         });
     </script>
 </body>
