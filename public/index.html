@@ -35,7 +35,7 @@
         <div class="hero-content">
             <h1>Agonizer</h1>
             <p>The most advanced script executor with unparalleled performance and security. Experience the future of script execution.</p>
-            <a class="cta-button" href="https://agonizer.net/get-started" target="_blank" rel="noopener noreferrer">Get Started</a>
+            <button class="cta-button" onclick="scrollToSection('download')">Get Started</button>
         </div>
     </section>
 
@@ -94,6 +94,37 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Scroll to section
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Logo fallback if image fails
+        const logoImg = document.getElementById('logoImg');
+        const logoFallback = document.getElementById('logoFallback');
+        logoImg.addEventListener('error', () => {
+            logoImg.style.display = 'none';
+            logoFallback.style.display = 'block';
+        });
+
+        // Create background particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', createParticles);
+    </script>
 </body>
 </html>
