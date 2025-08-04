@@ -1,10 +1,91 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=https://discord.gg/92vWMFRceX" />
-    <script>
-      window.location.href = "https://discord.gg/92vWMFRceX";
-    </script>
-  </head>
-  <body></body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Discord - Agonizer</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .discord-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .discord-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 0, 68, 0.2);
+            max-width: 500px;
+            margin-top: 80px;
+        }
+        
+        .discord-logo {
+            width: 80px;
+            height: 80px;
+            background: #5865F2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+        }
+        
+        .join-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .join-btn:hover {
+            background: #4752C4;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/" class="logo-link">
+                    <img src="assets/logo.png" alt="Agonizer Logo" class="logo" id="logoImg">
+                    <div class="logo-fallback" id="logoFallback">Agonizer</div>
+                </a>
+                <a href="/">Home</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="discord-container">
+        <div class="discord-card">
+            <div class="discord-logo">💬</div>
+            <h1>Join Our Discord Community</h1>
+            <p>Connect with other users, get support, and stay updated with the latest Agonizer news and updates.</p>
+            <a href="https://discord.gg/agonizer" class="join-btn" target="_blank">Join Discord Server</a>
+            <p style="margin-top: 20px; color: #888; font-size: 14px;">
+                Having trouble? Contact us at <a href="mailto:support@agonizer.net" style="color: #ff0044;">support@agonizer.net</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
