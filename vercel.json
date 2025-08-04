@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/discord", "destination": "/discord.html" },
-    { "source": "/status", "destination": "/status.html" },
-    { "source": "/support", "destination": "/support.html" },
-    { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/faq", "destination": "/faq.html" }
-  ]
-}
