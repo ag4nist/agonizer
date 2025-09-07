@@ -1,47 +1,1056 @@
 
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Agonizer</title>
-
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
-    body {
-        background-color: #f0f0f2;
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        
-    }
-    div {
-        width: 600px;
-        margin: 5em auto;
-        padding: 2em;
-        background-color: #fdfdff;
-        border-radius: 0.5em;
-        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
-    }
-    a:link, a:visited {
-        color: #38488f;
-        text-decoration: none;
-    }
-    @media (max-width: 700px) {
-        div {
-            margin: 0 auto;
-            width: auto;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agonizer - Advanced Roblox Multi-Tool & Executor Software</title>
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #000000;
+            --bg-card: #000000;
+            --bg-card-hover: #000000;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --text-muted: #666666;
+            --accent-primary: #c31c1b;
+            --accent-secondary: #ff6b35;
+            --accent-gradient: linear-gradient(135deg, #bc1414 0%, #c31c1b 100%);
+            --border-primary: #333333;
+            --border-secondary: #555555;
+            --shadow-primary: 0 8px 32px rgba(0, 212, 255, 0.15);
+            --shadow-secondary: 0 4px 16px rgba(0, 0, 0, 0.3);
+            --blur-bg: rgba(0, 0, 0, 0.8);
         }
-    }
-    </style>    
-</head>
 
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f3f4;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #888888;
+            --accent-primary: #0066cc;
+            --accent-secondary: #ff4444;
+            --border-primary: #e0e0e0;
+            --border-secondary: #cccccc;
+            --shadow-primary: 0 8px 32px rgba(0, 102, 204, 0.15);
+            --shadow-secondary: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --blur-bg: rgba(255, 255, 255, 0.8);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: var(--bg-primary);
+        }
+        
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(1deg); }
+            66% { transform: translate(-20px, 20px) rotate(-1deg); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--blur-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: var(--shadow-secondary);
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-primary);
+        }
+        
+        .hero {
+            padding: 120px 0 80px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 900;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 24px;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .product-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 60px 0 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .product-tab {
+            background: var(--bg-card);
+            border: 2px solid var(--border-primary);
+            color: var(--text-secondary);
+            padding: 16px 32px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-tab.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-primary);
+        }
+        
+        .product-tab:hover:not(.active) {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+        
+        .product-content {
+            display: none;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .nav {
+            background: var(--blur-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin: 40px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            box-shadow: var(--shadow-secondary);
+        }
+        
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav a:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-primary);
+            transform: translateY(-1px);
+        }
+        
+        .section {
+            margin: 80px 0;
+            padding: 60px 0;
+        }
+        
+        .section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-primary);
+            background: var(--bg-card-hover);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .price-card {
+            text-align: center;
+            position: relative;
+        }
+        
+        .price-card.featured {
+            transform: scale(1.05);
+            border: 2px solid var(--accent-primary);
+        }
+        
+        .price-card.featured::after {
+            content: 'Most Popular';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gradient);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+        
+        .cta-button {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 8px;
+            font-size: 16px;
+            box-shadow: var(--shadow-secondary);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-primary);
+        }
+        
+        .cta-button.secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border-secondary);
+        }
+        
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            margin: 20px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: var(--bg-card-hover);
+        }
+        
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            color: var(--text-secondary);
+        }
+        
+        .faq-item.open .faq-answer {
+            padding: 0 24px 24px 24px;
+            max-height: 200px;
+        }
+        
+        .faq-item.open .faq-question::after {
+            transform: rotate(180deg);
+        }
+        
+        .faq-question::after {
+            content: '⌄';
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+        
+        .contact-card {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-primary);
+            padding: 60px 0 40px 0;
+            margin-top: 120px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero {
+                padding: 80px 0 60px 0;
+            }
+            
+            .product-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .product-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav a {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .card {
+                padding: 24px;
+            }
+            
+            .theme-toggle {
+                top: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
 <body>
-<div>
-    <h1>Agonizer</h1>
-    <p>This domain is for use in illustrative examples in documents. You may use this
-    domain in literature without prior coordination or asking for permission.</p>
-    <p><a href="https://www.iana.org/domains/example">More information...</a></p>
-</div>
+    <div class="animated-bg"></div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
+    
+    <div class="container">
+        <div class="hero">
+            <h1>Agonizer</h1>
+            <p class="hero-subtitle">Roblox Multi-Tool & Executor Software - Like steroids for Roblox</p>
+            
+            <div class="product-tabs">
+                <div class="product-tab active" onclick="switchProduct('multitool')">
+                    Agonizer Multi-Tool
+                </div>
+                <div class="product-tab" onclick="switchProduct('executor')">
+                    Agonizer Executor
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#docs">Documentation</a>
+            <a href="#tutorials">Tutorials</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#terms">Terms</a>
+            <a href="#contact">Contact</a>
+            <a href="#discord">Discord</a>
+        </div>
+        
+        <!-- MULTI-TOOL CONTENT -->
+        <div class="product-content active" id="multitool-content">
+            <div class="section" id="features">
+                <h2>Multi-Tool Features</h2>
+                <p class="section-subtitle">Variety of features. For Windows users only. Run as administrator.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>FPS Booster</h3>
+                        <p>Improve the FPS and overall quality of your Roblox experience.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Roblox Installer/Uninstaller</h3>
+                        <p>Install, Re-Install, or Uninstall Roblox Player and Roblox Studio.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>AutoClicker</h3>
+                        <p>You can set any keybind of your choice to toggle it off and on & how fast you want it to click.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Multi-Instance</h3>
+                        <p>Will let you be able to run multiple tabs of Roblox at a time.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Kill Roblox</h3>
+                        <p>Press a button to end and close all instances of Roblox Player and Roblox Studio.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Get Roblox Version</h3>
+                        <p>Gets current version of the Roblox you have.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="pricing">
+                <h2>Multi-Tool Pricing</h2>
+                <p class="section-subtitle">Choose the perfect plan for your multi-tool needs with flexible pricing options.</p>
+                
+                <div class="card-grid">
+                    <div class="card price-card">
+                        <h3>🌱 Starter</h3>
+                        <div class="price">$39<span style="font-size: 1rem;">/mo</span></div>
+                        <p>Perfect for individuals and small projects</p>
+                        <ul style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                            <li>✓ 25 integrated tools</li>
+                            <li>✓ 5GB cloud storage</li>
+                            <li>✓ Basic automation</li>
+                            <li>✓ Email support</li>
+                            <li>✓ 1 user license</li>
+                        </ul>
+                        <a href="#" class="cta-button">Start Free Trial</a>
+                    </div>
+                    
+                    <div class="card price-card featured">
+                        <h3>💼 Professional</h3>
+                        <div class="price">$99<span style="font-size: 1rem;">/mo</span></div>
+                        <p>Advanced features for power users</p>
+                        <ul style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                            <li>✓ All 50+ tools</li>
+                            <li>✓ 100GB cloud storage</li>
+                            <li>✓ Advanced automation</li>
+                            <li>✓ Priority support</li>
+                            <li>✓ 5 user licenses</li>
+                            <li>✓ Custom integrations</li>
+                        </ul>
+                        <a href="#" class="cta-button">Start Free Trial</a>
+                    </div>
+                    
+                    <div class="card price-card">
+                        <h3>🏢 Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <p>Tailored solutions for large teams</p>
+                        <ul style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                            <li>✓ Everything in Professional</li>
+                            <li>✓ Unlimited storage</li>
+                            <li>✓ White-label options</li>
+                            <li>✓ 24/7 dedicated support</li>
+                            <li>✓ Unlimited users</li>
+                            <li>✓ On-premise deployment</li>
+                        </ul>
+                        <a href="#" class="cta-button secondary">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="faq">
+                <h2>Multi-Tool FAQ</h2>
+                <p class="section-subtitle">Common questions about Agonizer Multi-Tool</p>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">What tools are included in the Multi-Tool suite?</div>
+                    <div class="faq-answer">
+                        <p>Multi-Tool includes 50+ integrated tools including data processors, file converters, image editors, text analyzers, code formatters, encryption tools, network utilities, system monitors, and much more. The Professional plan includes all tools with no restrictions.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">Can I use Multi-Tool offline?</div>
+                    <div class="faq-answer">
+                        <p>Yes! Multi-Tool works completely offline for core functionality. Cloud features like sync, backup, and collaboration require internet, but all tools function locally for privacy and reliability.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">How does automation work in Multi-Tool?</div>
+                    <div class="faq-answer">
+                        <p>Our visual scripting system lets you drag and drop tools to create workflows. Set triggers, conditions, and actions without coding. Advanced users can also write custom scripts using our API.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">Is there a learning curve?</div>
+                    <div class="faq-answer">
+                        <p>Multi-Tool is designed for immediate productivity. Most users master basic operations within hours. Our guided tutorials and smart suggestions help you discover new tools and features naturally.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- EXECUTOR CONTENT -->
+        <div class="product-content" id="executor-content">
+            <div class="section" id="features">
+                <h2>Executor Features</h2>
+                <p class="section-subtitle">High-performance execution environment built for speed, reliability, and scalability in mission-critical applications.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <h3><div class="feature-icon">🚀</div> Blazing Fast Execution</h3>
+                        <p>Execute tasks 50x faster with our optimized runtime engine. Advanced JIT compilation, memory optimization, and parallel processing deliver unprecedented performance.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><div class="feature-icon">⚡</div> Real-time Processing</h3>
+                        <p>Process millions of operations per second with sub-millisecond latency. Perfect for high-frequency trading, real-time analytics, and time-critical applications.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><div class="feature-icon">🔄</div> Auto-scaling</h3>
+                        <p>Automatically scale from single-core to multi-node clusters. Dynamic resource allocation ensures optimal performance while minimizing costs.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><div class="feature-icon">🛡️</div> Fault Tolerance</h3>
+                        <p>Built-in redundancy, automatic failover, and self-healing capabilities ensure 99.99% uptime. Your critical processes never stop running.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><div class="feature-icon">📡</div> Advanced Monitoring</h3>
+                        <p>Real-time performance metrics, resource utilization tracking, and predictive alerting. Full observability into your execution environment.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><div class="feature-icon">🔐</div> Military-grade Security</h3>
+                        <p>End-to-end encryption, secure execution environments, and compliance with the highest security standards. Perfect for sensitive workloads.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="pricing">
+                <h2>Executor Pricing</h2>
+                <p class="section-subtitle">Performance-based pricing that scales with your execution needs.</p>
+                
+                <div class="card-grid">
+                    <div class="card price-card">
+                        <h3>⚡ Basic</h3>
+                        <div class="price">$79<span style="font-size: 1rem;">/mo</span></div>
+                        <p>High-performance execution for small workloads</p>
+                        <ul style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                            <li>✓ 1M executions/month</li>
+                            <li>✓ 4-core execution nodes</li>
+                            <li>✓ 99.9% uptime SLA</li>
+                            <li>✓ Email support</li>
+                            <li>✓ Basic monitoring</li>
+                        </ul>
+                        <a href="#" class="cta-button">Start Free Trial</a>
+                    </div>
+                    
+                    <div class="card price-card featured">
+                        <h3>🚀 Performance</h3>
+                        <div class="price">$299<span style="font-size: 1rem;">/mo</span></div>
+                        <p>Maximum performance for demanding applications</p>
+                        <ul style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                            <li>✓ 10M executions/month</li>
+                            <li>✓ 16-core execution nodes</li>
+                            <li>✓ 99.99% uptime SLA</li>
+                            <li>✓ Priority support</li>
+                            <li>✓ Advanced monitoring</li>
+                            <li>✓ Auto-scaling</li>
+                        </ul>
+                        <a href="#" class="cta-button">Start Free Trial</a>
+                    </div>
+                    
+                    <div class="card price-card">
+                        <h3>🏢 Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <p>Unlimited scale for enterprise workloads</p>
+                        <ul style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                            <li>✓ Unlimited executions</li>
+                            <li>✓ Custom node configurations</li>
+                            <li>✓ 99.999% uptime SLA</li>
+                            <li>✓ 24/7 dedicated support</li>
+                            <li>✓ Custom monitoring</li>
+                            <li>✓ On-premise options</li>
+                        </ul>
+                        <a href="#" class="cta-button secondary">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="faq">
+                <h2>Executor FAQ</h2>
+                <p class="section-subtitle">Common questions about Agonizer Executor</p>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">What types of workloads can Executor handle?</div>
+                    <div class="faq-answer">
+                        <p>Executor is designed for high-performance computing tasks including data processing, machine learning inference, real-time analytics, financial modeling, scientific computing, and any CPU/memory intensive operations requiring maximum speed and reliability.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">How does auto-scaling work?</div>
+                    <div class="faq-answer">
+                        <p>Executor automatically monitors resource utilization and scales execution nodes up or down based on demand. This ensures optimal performance during peak loads while minimizing costs during low usage periods.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">What programming languages are supported?</div>
+                    <div class="faq-answer">
+                        <p>Executor supports Python, JavaScript/Node.js, Go, Rust, C++, Java, and more. Our runtime environment includes optimized interpreters and compilers for maximum performance across all supported languages.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">How reliable is the 99.99% uptime guarantee?</div>
+                    <div class="faq-answer">
+                        <p>Our infrastructure includes redundant nodes across multiple availability zones, automatic failover, health monitoring, and self-healing capabilities. We maintain detailed SLA reports and provide credits for any downtime below our guarantee.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SHARED SECTIONS -->
+        <div class="section" id="discord">
+            <h2>Join Our Community</h2>
+            <p class="section-subtitle">Get instant support and stay updated on the latest features.</p>
+            <div class="card" style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <a href="https://discord.gg/agonizer" class="cta-button">Join Discord Server</a>
+            </div>
+        </div>
+        
+        <div class="section" id="docs">
+            <h2>Documentation</h2>
+            <p class="section-subtitle">Comprehensive guides and references for both Multi-Tool and Executor platforms.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3><div class="feature-icon">📚</div> Getting Started</h3>
+                    <p><strong>Multi-Tool:</strong> Installation, first project setup, workspace customization<br><br>
+                    <strong>Executor:</strong> Runtime deployment, first execution, performance tuning</p>
+                    <a href="#" style="color: var(--accent-primary); text-decoration: none;">→ View Getting Started Guides</a>
+                </div>
+                
+                <div class="card">
+                    <h3><div class="feature-icon">🔧</div> API References</h3>
+                    <p><strong>Multi-Tool:</strong> Tool APIs, automation scripting, plugin development<br><br>
+                    <strong>Executor:</strong> Execution APIs, monitoring endpoints, scaling controls</p>
+                    <a href="#" style="color: var(--accent-primary); text-decoration: none;">→ Browse API Documentation</a>
+                </div>
+                
+                <div class="card">
+                    <h3><div class="feature-icon">🏗️</div> Advanced Guides</h3>
+                    <p><strong>Multi-Tool:</strong> Custom workflows, enterprise integration, security configuration<br><br>
+                    <strong>Executor:</strong> Performance optimization, cluster management, monitoring setup</p>
+                    <a href="#" style="color: var(--accent-primary); text-decoration: none;">→ Explore Advanced Topics</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="tutorials">
+            <h2>Interactive Tutorials</h2>
+            <p class="section-subtitle">Learn by doing with our hands-on tutorials and real-world examples.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3><div class="feature-icon">🚀</div> Multi-Tool Tutorials</h3>
+                    <div style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                        <p><strong>Beginner:</strong></p>
+                        <p>• Your First Multi-Tool Project (10 min)<br>
+                        • Building Custom Workflows (15 min)<br>
+                        • Data Processing Fundamentals (20 min)</p>
+                        
+                        <p><strong>Advanced:</strong></p>
+                        <p>• Automation Scripting (30 min)<br>
+                        • Performance Optimization (25 min)<br>
+                        • Enterprise Integration (45 min)</p>
+                    </div>
+                    <a href="#" class="cta-button secondary">Start Multi-Tool Tutorials</a>
+                </div>
+                
+                <div class="card">
+                    <h3><div class="feature-icon">⚡</div> Executor Tutorials</h3>
+                    <div style="text-align: left; margin: 20px 0; color: var(--text-secondary);">
+                        <p><strong>Beginner:</strong></p>
+                        <p>• First High-Performance Execution (5 min)<br>
+                        • Monitoring and Debugging (12 min)<br>
+                        • Scaling Basics (18 min)</p>
+                        
+                        <p><strong>Advanced:</strong></p>
+                        <p>• Custom Runtime Configuration (35 min)<br>
+                        • Multi-Node Deployment (40 min)<br>
+                        • Production Optimization (50 min)</p>
+                    </div>
+                    <a href="#" class="cta-button secondary">Start Executor Tutorials</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="reviews">
+            <h2>Customer Success Stories</h2>
+            <p class="section-subtitle">See how professionals worldwide are using Agonizer to transform their workflows.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">SC</div>
+                        <div>
+                            <strong>Sarah Chen</strong><br>
+                            <small style="color: var(--text-secondary);">Data Analyst, TechCorp</small>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-secondary);">"Multi-Tool eliminated 80% of my manual data processing work. The automation features are incredible - what took days now happens in minutes. Game-changer for our analytics team."</p>
+                    <div style="color: var(--accent-primary); margin-top: 16px;">★★★★★ Multi-Tool User</div>
+                </div>
+                
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">MR</div>
+                        <div>
+                            <strong>Michael Rodriguez</strong><br>
+                            <small style="color: var(--text-secondary);">DevOps Engineer, ScaleUp Inc</small>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-secondary);">"Executor handles our ML inference workloads flawlessly. The auto-scaling saved us 60% on compute costs while improving response times. The reliability is unmatched."</p>
+                    <div style="color: var(--accent-primary); margin-top: 16px;">★★★★★ Executor User</div>
+                </div>
+                
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">JP</div>
+                        <div>
+                            <strong>Jennifer Park</strong><br>
+                            <small style="color: var(--text-secondary);">CTO, InnovateNow</small>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-secondary);">"We use both products company-wide. Multi-Tool for daily operations, Executor for our high-performance computing needs. The integration between them is seamless."</p>
+                    <div style="color: var(--accent-primary); margin-top: 16px;">★★★★★ Full Suite User</div>
+                </div>
+                
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">DT</div>
+                        <div>
+                            <strong>David Thompson</strong><br>
+                            <small style="color: var(--text-secondary);">Financial Analyst, MegaCorp</small>
+                        </div>
+                    </div>
+                    <p style="font-style: italic; color: var(--text-secondary);">"Executor processes our risk calculations 50x faster than our old system. The real-time monitoring gives us confidence in our mission-critical financial models."</p>
+                    <div style="color: var(--accent-primary); margin-top: 16px;">★★★★★ Executor Enterprise</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="terms">
+            <h2>Terms & Legal</h2>
+            <p class="section-subtitle">Important legal information and policies for using Agonizer products.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3><div class="feature-icon">📋</div> Service Terms</h3>
+                    <div style="color: var(--text-secondary); line-height: 1.8;">
+                        • <a href="#" style="color: var(--accent-primary);">Terms of Service</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Privacy Policy</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Data Processing Agreement</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Acceptable Use Policy</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><div class="feature-icon">💼</div> Business Terms</h3>
+                    <div style="color: var(--text-secondary); line-height: 1.8;">
+                        • <a href="#" style="color: var(--accent-primary);">Service Level Agreement</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Refund Policy</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Enterprise Agreement</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Billing Terms</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><div class="feature-icon">🔒</div> Compliance</h3>
+                    <div style="color: var(--text-secondary); line-height: 1.8;">
+                        • <a href="#" style="color: var(--accent-primary);">GDPR Compliance</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">SOC 2 Type II</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">HIPAA Compliance</a><br>
+                        • <a href="#" style="color: var(--accent-primary);">Security Certifications</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: var(--bg-card); padding: 30px; border-radius: 16px; margin-top: 40px; text-align: center;">
+                <p style="color: var(--text-secondary);"><em>Last updated: January 2025. We may update these terms periodically and will notify users of significant changes via email and platform notifications.</em></p>
+            </div>
+        </div>
+        
+        <div class="section" id="contact">
+            <h2>Get Support</h2>
+            <p class="section-subtitle">Multiple ways to get help, whether you're just getting started or need enterprise support.</p>
+            
+            <div class="contact-grid">
+                <div class="card contact-card">
+                    <h3>Discord Community</h3>
+                    <p>Join our active community for instant help, feature discussions, and conversing with other Agonizer users.</p>
+                    <p style="color: var(--text-secondary); margin: 16px 0;">• 24/7 community support<br>• Direct access to developers<br>• Beta feature previews</p>
+                    <a href="https://discord.gg/agonizer" class="cta-button">Join Discord Server</a>
+                </div>
+                
+                <div class="card contact-card">
+                    <h3>Email Support</h3>
+                    <p>Get detailed help via email for technical questions, account issues, or general inquiries.</p>
+                    <p style="color: var(--text-secondary); margin: 16px 0;">• Response within 4-6 hours<br>• Detailed troubleshooting<br>• Account management</p>
+                    <a href="mailto:support@agonizer.com" class="cta-button secondary">Email Support</a>
+                </div>
+                
+                <div class="card contact-card">
+                    <h3>Other Inquiries</h3>
+                    <p>Have any business, partnership, or other inquiry questions?</p>
+                    <p style="color: var(--text-secondary); margin: 16px 0;">• Custom pricing options<br>• Dedicated account management<br>• Professional services</p>
+                    <a href="mailto:sales@agonizer.com" class="cta-button secondary">Contact Us</a>
+                </div>
+            </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#docs">Documentation</a>
+                <a href="#tutorials">Tutorials</a>
+                <a href="#terms">Terms</a>
+                <a href="#contact">Contact</a>
+                <a href="mailto:support@agonizer.com">Support</a>
+                <a href="https://discord.gg/agonizer">Discord</a>
+            </div>
+            <p style="color: var(--text-muted);">&copy; 2025 Agonizer. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (html.getAttribute('data-theme') === 'light') {
+                html.removeAttribute('data-theme');
+                button.textContent = 'Light Mode';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                button.textContent = 'Dark Mode';
+            }
+        }
+
+        // Product Switcher
+        function switchProduct(product) {
+            // Update tabs
+            document.querySelectorAll('.product-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.product-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(product + '-content').classList.add('active');
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(element) {
+            element.classList.toggle('open');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize theme based on system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.querySelector('.theme-toggle').textContent = 'Dark Mode';
+        }
+    </script>
 </body>
 </html>
