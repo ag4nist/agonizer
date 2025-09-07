@@ -1,7 +1,6 @@
 {
   "rewrites": [
     { "source": "/discord", "destination": "/discord.html" },
-    { "source": "/vouches", "destination": "/vouches.html" }
     { "source": "/vouches", "destination": "/vouches.html" },
     { "source": "/docs", "destination": "/docs.html" }
   ]
